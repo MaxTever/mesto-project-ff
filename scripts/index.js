@@ -10,8 +10,8 @@ function createCard(cardTitle, cardImg, removeCard){
     const cardDeleteBtn = cardElement.querySelector('.card__delete-button');
 
     cardElement.querySelector('.card__title').textContent = cardTitle; 
-    cardImage.setAttribute('alt', `${cardTitle}`);
-    cardImage.setAttribute('src', `${cardImg}`);
+    cardImage.alt = cardTitle;
+    cardImage.src = cardImg;
 
     cardDeleteBtn.addEventListener('click', removeCard);
     return cardElement;
@@ -19,7 +19,7 @@ function createCard(cardTitle, cardImg, removeCard){
 
 // @todo: Функция удаления карточки
 
-let removeCard = function (evt){
+function removeCard(evt){
     const removedItem = evt.target.closest('.card');
     removedItem.remove();
 }
