@@ -1,4 +1,7 @@
 'use strict'
+//import "./pages/index.css"; 
+import "./scripts/cards.js"; // добавьте импорт главного файла стилей
+
 // @todo: Темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content;
 // @todo: DOM узлы
@@ -30,3 +33,4 @@ initialCards.forEach(function({name, link}){
     const cardData = createCard(name, link, removeCard);
     cardList.append(cardData);
 })
+
