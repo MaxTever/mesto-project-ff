@@ -1,6 +1,5 @@
-'use strict'
-//import "./pages/index.css"; 
-import "./scripts/cards.js"; // добавьте импорт главного файла стилей
+import { initialCards } from './scripts/cards';
+import "./pages/index.css"; // добавьте импорт главного файла стилей
 
 // @todo: Темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content;
