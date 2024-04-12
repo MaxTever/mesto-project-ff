@@ -24,14 +24,13 @@ export function closeEscPopup(evt){
 }
 
 
+
 export function closePopupBtn(popup){
     const closeButton = popup.querySelector('.popup__close');
     closeButton.addEventListener('click', function(){
         closePopup(popup)
     });
 }
-
-
 
 
 
