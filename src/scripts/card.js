@@ -1,5 +1,5 @@
 import { openPopup } from "./modal";
-import { OnImageClick } from "..";
+import { OnImageClick } from ".";
 import { initialCards } from "./cards";
 
 // // @todo: Темплейт карточки

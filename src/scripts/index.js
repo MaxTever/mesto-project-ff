@@ -1,11 +1,12 @@
-import "./pages/index.css"; // добавьте импорт главного файла стилей
-import { initialCards } from "./scripts/cards";
-import { createCard, removeCard } from './scripts/card';
-import { setCloseModalByClickListeners } from './scripts/modal';
-import { likeCard } from "./scripts/card";
-import { openPopup, closePopup, closeEscPopup, closePopupBtn } from './scripts/modal';
-import { cardsContainer } from "./scripts/card";
-import { cardTemplate } from "./scripts/cards";
+// import "./pages/index.css"; // добавьте импорт главного файла стилей
+import "../pages/index.css";
+import { initialCards } from "./cards";
+import { createCard, removeCard } from './card';
+import { setCloseModalByClickListeners } from './modal';
+import { likeCard } from "./card";
+import { openPopup, closePopup, closeEscPopup, closePopupBtn } from './modal';
+import { cardsContainer } from "./card";
+import { cardTemplate } from "./cards";
 
 
 
@@ -16,25 +17,26 @@ const addButton = document.querySelector('.profile__add-button');
 const editButton = document.querySelector('.profile__edit-button');
 const popupEdit = document.querySelector('.popup_type_edit');
 const popupImg = document.querySelector('.popup_type_image');
-const formElement = document.querySelector('.popup__form');
+const editFormElement = popupEdit.querySelector('.popup__form');
 const nameInput = document.querySelector('.popup__input_type_name');
 const jobInput = document.querySelector('.popup__input_type_description');
 const imgPopupImg = document.querySelector('.popup__image');
 const imgPopupCaption = document.querySelector('.popup__caption');
 const cardName = document.querySelector('.popup__input_type_card-name');
 const cardUrl = document.querySelector('.popup__input_type_url');
+const saveEditFormButton = popupEdit.querySelector('.popup__button');
 const formNewCard = document.forms.newplace;
+const profileName = document.querySelector('.profile__title');
+const profileDescription = document.querySelector('.profile__description');
 
 
 
-
-function handleFormSubmit(evt) {
+function handleEditFormSubmit(evt) {
     evt.preventDefault();
-    const saveButton = document.querySelector('.popup__button');
-    document.querySelector('.profile__title').textContent = nameInput.value;
-    document.querySelector('.profile__description').textContent = jobInput.value;
-    saveButton.addEventListener('click', function(evt){
-        evt.target.closest('.popup').classList.remove('popup_is-opened');
+    profileName.textContent = nameInput.value;
+    profileDescription.textContent = jobInput.value;
+    saveEditFormButton.addEventListener('click', function(evt){
+        closePopup(popupEdit);
     });
 }
 
@@ -49,7 +51,7 @@ formNewCard.addEventListener('submit', function(evt){
   })
 
 
-formElement.addEventListener('submit', handleFormSubmit);
+editFormElement.addEventListener('submit', handleEditFormSubmit);
 
 
 
@@ -58,10 +60,10 @@ addButton.addEventListener('click', function(evt) {
 });
 
 editButton.addEventListener('click', function(evt){
-    nameInput.value = document.querySelector('.profile__title').textContent;
-    jobInput.value = document.querySelector('.profile__description').textContent;
+    nameInput.value = profileName.textContent;
+    jobInput.value = profileDescription.textContent;
     openPopup(popupEdit);
-    handleFormSubmit(evt);
+    handleEditFormSubmit(evt);
 });
 
 
