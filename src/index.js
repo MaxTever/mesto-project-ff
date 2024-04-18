@@ -1,9 +1,10 @@
 import "./pages/index.css"; // добавьте импорт главного файла стилей
-import { initialCards } from './scripts/cards';
-import { createCard, removeCard } from './scripts/cards';
-import { likeCard } from "./scripts/cards";
+import { initialCards } from "./scripts/cards";
+import { createCard, removeCard } from './scripts/card';
+import { setCloseModalByClickListeners } from './scripts/modal';
+import { likeCard } from "./scripts/card";
 import { openPopup, closePopup, closeEscPopup, closePopupBtn } from './scripts/modal';
-import { cardList } from "./scripts/cards";
+import { cardsContainer } from "./scripts/card";
 import { cardTemplate } from "./scripts/cards";
 
 
@@ -25,8 +26,7 @@ const cardUrl = document.querySelector('.popup__input_type_url');
 const formNewCard = document.forms.newplace;
 
 
-nameInput.value = document.querySelector('.profile__title').textContent;
-jobInput.value = document.querySelector('.profile__description').textContent;
+
 
 function handleFormSubmit(evt) {
     evt.preventDefault();
@@ -43,7 +43,7 @@ function handleFormSubmit(evt) {
 
 formNewCard.addEventListener('submit', function(evt){
     evt.preventDefault();
-    cardList.prepend(createCard(cardName.value, cardUrl.value, removeCard, likeCard, OpenImgPopup));
+    cardsContainer.prepend(createCard(cardName.value, cardUrl.value, removeCard, likeCard, OnImageClick));
     closePopup(popupAdd);
     formNewCard.reset();
   })
@@ -58,15 +58,27 @@ addButton.addEventListener('click', function(evt) {
 });
 
 editButton.addEventListener('click', function(evt){
+    nameInput.value = document.querySelector('.profile__title').textContent;
+    jobInput.value = document.querySelector('.profile__description').textContent;
     openPopup(popupEdit);
+    handleFormSubmit(evt);
 });
 
 
 
 
-export function OpenImgPopup(evt){
+export function OnImageClick(evt){
     openPopup(popupImg);
     imgPopupImg.src = evt.target.src;
     imgPopupImg.alt = evt.target.closest('.card').textContent;
     imgPopupCaption.textContent = evt.target.closest('.card').textContent;
   }
+
+
+
+  // @todo: Вывести карточки на страницу
+
+initialCards.forEach(function({name, link}){
+    const cardData = createCard(name, link, removeCard, likeCard, OnImageClick );
+    cardsContainer.append(cardData);
+  })
