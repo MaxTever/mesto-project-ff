@@ -28,31 +28,26 @@ const saveEditFormButton = popupEdit.querySelector('.popup__button');
 const formNewCard = document.forms.newplace;
 const profileName = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
-
+const popupList = document.querySelectorAll('.popup');
 
 
 function handleEditFormSubmit(evt) {
     evt.preventDefault();
     profileName.textContent = nameInput.value;
     profileDescription.textContent = jobInput.value;
-    saveEditFormButton.addEventListener('click', function(evt){
-        closePopup(popupEdit);
-    });
+    closePopup(popupEdit);
 }
-
-
 
 
 formNewCard.addEventListener('submit', function(evt){
     evt.preventDefault();
-    cardsContainer.prepend(createCard(cardName.value, cardUrl.value, removeCard, likeCard, OnImageClick));
+    cardsContainer.prepend(createCard(cardName.value, cardUrl.value, removeCard, likeCard, onImageClick));
     closePopup(popupAdd);
     formNewCard.reset();
   })
 
 
 editFormElement.addEventListener('submit', handleEditFormSubmit);
-
 
 
 addButton.addEventListener('click', function(evt) {
@@ -63,13 +58,10 @@ editButton.addEventListener('click', function(evt){
     nameInput.value = profileName.textContent;
     jobInput.value = profileDescription.textContent;
     openPopup(popupEdit);
-    handleEditFormSubmit(evt);
 });
 
 
-
-
-export function OnImageClick(evt){
+export function onImageClick(evt){
     openPopup(popupImg);
     imgPopupImg.src = evt.target.src;
     imgPopupImg.alt = evt.target.closest('.card').textContent;
@@ -77,10 +69,11 @@ export function OnImageClick(evt){
   }
 
 
+setCloseModalByClickListeners(popupList);
 
   // @todo: Вывести карточки на страницу
 
 initialCards.forEach(function({name, link}){
-    const cardData = createCard(name, link, removeCard, likeCard, OnImageClick );
+    const cardData = createCard(name, link, removeCard, likeCard, onImageClick );
     cardsContainer.append(cardData);
   })
