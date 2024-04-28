@@ -17,7 +17,7 @@ const addButton = document.querySelector('.profile__add-button');
 const editButton = document.querySelector('.profile__edit-button');
 const popupEdit = document.querySelector('.popup_type_edit');
 const popupImg = document.querySelector('.popup_type_image');
-const editFormElement = popupEdit.querySelector('.popup__form');
+const editFormElement = popupEdit.querySelector('.popup__input');
 const nameInput = document.querySelector('.popup__input_type_name');
 const jobInput = document.querySelector('.popup__input_type_description');
 const imgPopupImg = document.querySelector('.popup__image');
@@ -29,6 +29,8 @@ const formNewCard = document.forms.newplace;
 const profileName = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
 const popupList = document.querySelectorAll('.popup');
+// const popupInput = popupList.querySelectorAll('.popup__input');
+// const formError = editFormElement.querySelector(`.${formInput.id}-error`);
 
 
 function handleEditFormSubmit(evt) {
@@ -77,3 +79,5 @@ initialCards.forEach(function({name, link}){
     const cardData = createCard(name, link, removeCard, likeCard, onImageClick );
     cardsContainer.append(cardData);
   })
+
+
