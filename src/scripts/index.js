@@ -1,9 +1,7 @@
-// import "./pages/index.css"; // добавьте импорт главного файла стилей
 import "../pages/index.css";
-// import { initialCards } from "./cards";
 import { createCard, removeCard, deleteCard } from './card';
 import { setCloseModalByClickListeners } from './modal';
-import { likeCard } from "./card";
+import { likeCard } from "./card"; 
 import { openPopup, closePopup, closeEscPopup, closePopupBtn } from './modal';
 import { cardsContainer } from "./card";
 import { cardTemplate } from "./cards";
@@ -33,21 +31,12 @@ let personalId = '';
 const editButton = document.querySelector('.profile__edit-button');
 const popupEdit = document.querySelector('.popup_type_edit');
 const formEditElement = popupEdit.querySelector('.popup__form');
-// const editFormElement = popupEdit.querySelector('.popup__input');
 const nameInput = formEditElement.querySelector('.popup__input_type_name');
 const jobInput = formEditElement.querySelector('.popup__input_type_description');
 const saveEditFormButton = popupEdit.querySelector('.popup__button');
 const profileName = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
 
-
-// const avatarHoverButton = document.querySelector('.profile__image-hover');
-// const popupAvatarEdit = document.querySelector('.popup_type_add-avatar');
-// const popupAvatarEditFormElement = popupAvatarEdit.querySelector('popup__form');
-// const avatarUrl = document.querySelector('.popup__input_type_url');
-// const avatarLinkInput = popupAvatarEdit.querySelector('popup__input_type_url');
-// const profileImage = document.querySelector('.profile__image');
-// const avatarEditSaveButton = popupAvatarEditFormElement.querySelector('.popup__button');
 
 const popupAvatarEdit = document.querySelector('.popup_type_add-avatar');
 const formEditAvatar = document.forms.formAvatarEdit;
@@ -68,14 +57,6 @@ const validationConfig = {
 
 
 
-// function handleEditFormSubmit(evt) {
-//     evt.preventDefault();
-//     profileName.textContent = nameInput.value;
-//     profileDescription.textContent = jobInput.value;
-//     closePopup(popupEdit);
-// }
-
-
 editButton.addEventListener('click', function(evt){
   openPopup(popupEdit);
   nameInput.value = profileName.textContent;
@@ -86,15 +67,15 @@ editButton.addEventListener('click', function(evt){
 
 function handleEditFormSubmit(evt) {
   evt.preventDefault();
-  loading(true, saveEditFormButton);
-  patchEditProfile(profileName, profileDescription)
-  .then(() => {
+  setButtonLoadingState(true, saveEditFormButton);
+  patchEditProfile(nameInput.value, jobInput.value)
+  .then((data) => {
     closePopup(popupEdit);
-    profileName.textContent = nameInput.value;
-    profileDescription.textContent = jobInput.value;
+    profileName.textContent = data.name;
+    profileDescription.textContent = data.about;
   })
   .finally(() => {
-    loading(false, saveEditFormButton);
+    setButtonLoadingState(false, saveEditFormButton);
   })
   .catch((err) => 
     {console.log(err);
@@ -105,33 +86,18 @@ function handleEditFormSubmit(evt) {
 formEditElement.addEventListener('submit', handleEditFormSubmit);
 
 
-function loading (isLoading, button) {
-  if (isLoading) {
-    button.textContent ='Сохранение...';
-    } else {
-      button.textContent ='Сохранить';
-  }
+function setButtonLoadingState (isLoading, button) {
+  button.textContent = isLoading ? 'Сохранение...' : 'Сохранить' ;
 }
-
-
-// formNewCard.addEventListener('submit', function(evt){
-//     evt.preventDefault();
-//     cardsContainer.prepend(createCard(cardName.value, cardUrl.value, removeCard, likeCard, onImageClick));
-//     closePopup(popupAdd);
-//     formNewCard.reset();
-//     clearValidation(formNewCard, validationConfig); 
-//   })
-
 
 
 formNewCard.addEventListener('submit', function(evt){
   evt.preventDefault();
-  loading(true, popupAddSaveButton);
+  setButtonLoadingState(true, popupAddSaveButton);
   postNewCard(cardName.value, cardUrl.value)
-  .then((res) => res.json())
   .then((data) => {
     cardsContainer.prepend(
-      createCard(data, removeCard, likeCard, onImageClick, personalId)
+      createCard(data, removeCard, likeCard, onImageClick, personalId) /// likecard
     )})
   .then(() => {
     closePopup(popupAdd);
@@ -141,7 +107,7 @@ formNewCard.addEventListener('submit', function(evt){
     clearValidation(formNewCard, validationConfig);
   })
   .finally(() => { 
-    loading(false, popupAddSaveButton);
+    setButtonLoadingState(false, popupAddSaveButton);
   })
   .catch((err) => {
     console.log(err);
@@ -164,9 +130,8 @@ avatarHoverButton.addEventListener('click', function(evt){
 
 formEditAvatar.addEventListener('submit', function(evt){
   evt.preventDefault();
-  loading(true, avatarEditSaveButton);
+  setButtonLoadingState(true, avatarEditSaveButton);
   editNewAvatar(avatarUrl.value)
-  .then(res => res.json())
   .then((data) => {
     profileImage.style.backgroundImage = `url(${data.avatar})`;
   })
@@ -175,10 +140,10 @@ formEditAvatar.addEventListener('submit', function(evt){
     formEditAvatar.reset();
   })
   .then(()=> {
-    clearValidation(popupAvatarEdit, validationConfig);
+    clearValidation(popupAvatarEdit, validationConfig);тесты
   })
   .finally(() => {
-    loading(false, avatarEditSaveButton);
+    setButtonLoadingState(false, avatarEditSaveButton);
   })
   .catch((err) => {
     console.log(err)
@@ -201,12 +166,6 @@ setCloseModalByClickListeners(popupList);
 
   // @todo: Вывести карточки на страницу
 
-// initialCards.forEach(function({name, link}){
-//     const cardData = createCard(name, link, removeCard, likeCard, onImageClick );
-//     cardsContainer.append(cardData);
-//   });
-
-
 
 Promise.all([getUser(), getInitialCards()])
   .then(([userData, cardsData]) => {
@@ -215,7 +174,7 @@ Promise.all([getUser(), getInitialCards()])
     profileDescription.textContent = userData.about;
     profileImage.style.backgroundImage = `url(${userData.avatar})`;
    cardsData.forEach(function(element){
-       const cardData = createCard(element, removeCard, likeCard, onImageClick, personalId);
+       const cardData = createCard(element, removeCard, likeCard, onImageClick, personalId); /// likecard
        cardsContainer.append(cardData);
      })
   })

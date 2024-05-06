@@ -9,19 +9,29 @@ export const config = {
 
 
 
+const handleResponse = (res) => { 
+    if (res.ok) { 
+        return res.json(); 
+    } else { 
+    return Promise.reject(res.status); 
+} 
+};
+
+
 export const getUser = () => {
 
     return fetch(`${config.baseUrl}/users/me`, {
         headers: config.headers
     })
 
-    .then ((res) => {
-        if (res.ok) {
-            return res.json();
-        } else {
-            return Promise.reject(res.status);
-        }
-    })
+    // .then ((res) => {
+    //     if (res.ok) {
+    //         return res.json();
+    //     } else {
+    //         return Promise.reject(res.status);
+    //     }
+    // })
+    .then(handleResponse);
 
 };
 
@@ -32,13 +42,13 @@ export const getInitialCards = () => {
     return fetch(`${config.baseUrl}/cards`, {
         headers: config.headers
 })
-    .then ((res) => {if (res.ok) {
-           return res.json();
-       } else {
-           return Promise.reject(res.status);
-       }
-       })
-   
+    // .then ((res) => {if (res.ok) {
+    //        return res.json();
+    //    } else {
+    //        return Promise.reject(res.status);
+    //    }
+    //    })
+    .then(handleResponse);
 };
 
 
@@ -48,11 +58,13 @@ export const patchEditProfile = (name, about) => {
         method: 'PATCH',
         headers: config.headers,
         body: JSON.stringify({
-            name: `${name.textContent}`,
-            about: `${about.textContent}`,
+            name,
+            about,
         }),
     },
-)};
+)
+    .then(handleResponse);
+};
 
 
 
@@ -64,46 +76,48 @@ export const postNewCard = (name, link) => {
         method: 'POST',
         headers: config.headers,
         body: JSON.stringify({
-            name: `${name}`,
-            link: `${link}`,
+            name,
+            link
         }),
     },
-)};
+    )
+    .then(handleResponse);
+};
 
 
 
 
 
-export const putLike = (id, likeCounter) => {
+export const putLike = (id) => {
     return fetch(`${config.baseUrl}/cards/likes/${id}`, {
         method: 'PUT',
         headers: config.headers,
     },
     )
-    .then ((res) => {
-        if (res.ok) {
-            return res.json();
-        } else {
-            return Promise.reject(res.status);
-        }
-    })
-
+    // .then ((res) => {
+    //     if (res.ok) {
+    //         return res.json();
+    //     } else {
+    //         return Promise.reject(res.status);
+    //     }
+    // })
+    .then(handleResponse);
 };
 
-export const deleteCardLike = (id, likeCounter) => {
+export const deleteCardLike = (id) => {
     return fetch(`${config.baseUrl}/cards/likes/${id}`, {
         method: 'DELETE',
         headers: config.headers,
     },
     )
-    .then ((res) => {
-        if (res.ok) {
-            return res.json();
-        } else {
-            return Promise.reject(`Ошибка: ${res.status}`);
-        }
-    })
-
+    // .then ((res) => {
+    //     if (res.ok) {
+    //         return res.json();
+    //     } else {
+    //         return Promise.reject(`Ошибка: ${res.status}`);
+    //     }
+    // })
+    .then(handleResponse);
 };
 
 
@@ -113,13 +127,14 @@ export const deleteCardApi = (id) => {
         headers: config.headers,
     },
     )
-    .then ((res) => {
-        if (res.ok) {
-            return res.json();
-        } else {
-            return Promise.reject(`Ошибка: ${res.status}`);
-        }
-    })
+    // .then ((res) => {
+    //     if (res.ok) {
+    //         return res.json();
+    //     } else {
+    //         return Promise.reject(`Ошибка: ${res.status}`);
+    //     }
+    // })
+    .then(handleResponse);
 };
 
 
@@ -131,5 +146,6 @@ export function editNewAvatar (link) {
             avatar: `${link}`
        
     }),
-});
+})
+    .then(handleResponse);
 };
